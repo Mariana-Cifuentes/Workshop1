@@ -23,7 +23,11 @@ El **esquema en estrella** diseñado contiene:
   - `dim_date` → Fecha normalizada (día, mes, año).  
   - `dim_country` → País de postulación.  
   - `dim_technology` → Tecnología asociada al perfil.  
-  - `dim_seniority` → Nivel de seniority.  
+  - `dim_seniority` → Nivel de seniority.
+
+### 📌 Diagrama del Modelo
+
+![Star Schema](img/star_schema.png)
 
 ---
 
@@ -107,5 +111,42 @@ WORKSHOP1/
 
 1. Clonar el repositorio:  
    ```bash
-   git clone <URL_REPO>
+   git clone https://github.com/Mariana-Cifuentes/Workshop1.git
    cd WORKSHOP1
+   ```
+2. Crear entorno virtual e instalar dependencias:  
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # Linux/Mac
+   venv\Scripts\activate      # Windows
+   pip install -r requirements.txt
+
+3. Configurar MySQL Workbench:
+
+   * Crear base de datos `selection_dw`.
+   * Ajustar credenciales en `src/ETL/main.py` y `src/ETL/kpis.py` (host, user, password).
+
+4. Ejecutar el pipeline ETL completo:
+
+   ```bash
+   python src/ETL/main.py
+   ```
+
+5. Consultar KPIs:
+
+   ```bash
+   python src/ETL/kpis.py
+   ```
+
+---
+
+## Resultados
+
+Los KPIs permiten analizar la efectividad del proceso de selección:
+
+* Distribución de contrataciones por **tecnología, seniority, país y año**.
+* Porcentaje total de contratación (**Hiring Rate**).
+* Promedio de puntajes de candidatos contratados por **seniority**.
+
+Esto proporciona una **visión estratégica** de cómo evoluciona el proceso de contratación en diferentes contextos.
+
