@@ -1,8 +1,7 @@
 import mysql.connector
 import pandas as pd
 
-# Database Connection
-
+# Create and manage the database connection
 def create_connection():
     try:
         conn = mysql.connector.connect(
@@ -20,7 +19,7 @@ def create_connection():
 
 
 # KPI 1: Hiring Rate
-
+# Calculates the percentage of hired candidates from the total selection process
 def kpi_hire_rate(conn):
     query = """
         SELECT 
@@ -30,8 +29,7 @@ def kpi_hire_rate(conn):
     return pd.read_sql(query, conn)
 
 
-# KPI 2: Average Scores (Challenge & Interview) by Seniority, only hired
-
+# KPI 2: Average scores of hired candidates (Code Challenge & Technical Interview) grouped by seniority level
 def kpi_avg_scores_hired_by_seniority(conn):
     query = """
         SELECT
@@ -47,8 +45,7 @@ def kpi_avg_scores_hired_by_seniority(conn):
     return pd.read_sql(query, conn)
 
 
-# KPI 3: Hires by Technology
-
+# KPI 3: Number of hires grouped by technology
 def kpi_hires_by_technology(conn):
     query = """
         SELECT 
@@ -63,8 +60,7 @@ def kpi_hires_by_technology(conn):
     return pd.read_sql(query, conn)
 
 
-# KPI 4: Hires by Year
-
+# KPI 4: Number of hires grouped by year
 def kpi_hires_by_year(conn):
     query = """
         SELECT 
@@ -79,8 +75,7 @@ def kpi_hires_by_year(conn):
     return pd.read_sql(query, conn)
 
 
-# KPI 5: Hires by Seniority
-
+# KPI 5: Number of hires grouped by seniority level
 def kpi_hires_by_seniority(conn):
     query = """
         SELECT 
@@ -95,8 +90,7 @@ def kpi_hires_by_seniority(conn):
     return pd.read_sql(query, conn)
 
 
-# KPI 6: Hires by Country
-
+# KPI 6: Number of hires grouped by country and year (limited to USA, Brazil, Colombia, Ecuador)
 def kpi_hires_by_country(conn):
     query = """
         SELECT 
@@ -114,8 +108,7 @@ def kpi_hires_by_country(conn):
     return pd.read_sql(query, conn)
 
 
-# MAIN
-
+# MAIN execution: connect to DB, run KPIs, and display results
 if __name__ == "__main__":
     conn = create_connection()
     if conn:
