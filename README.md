@@ -14,20 +14,39 @@ Simula un reto real de entrevista técnica para un rol de **Data Engineer**, imp
 
 ## Modelo Dimensional (Star Schema)
 
-El **esquema en estrella** diseñado contiene:
+![Star Schema](img/star_schema.drawio.png)
 
-- **Tabla de Hechos:** `fact_selection`  
-  - Contiene las métricas del proceso de selección (puntajes, estado de contratación).  
-- **Tablas de Dimensión:**  
-  - `dim_candidate` → Información de cada candidato.  
-  - `dim_date` → Fecha normalizada (día, mes, año).  
-  - `dim_country` → País de postulación.  
-  - `dim_technology` → Tecnología asociada al perfil.  
-  - `dim_seniority` → Nivel de seniority.
+El esquema está conformado por una tabla de hechos (`fact_selection`) y cinco tablas de dimensiones (`dim_candidate`, `dim_technology`, `dim_country`, `dim_seniority`, `dim_date`).  
 
-### 📌 Diagrama del Modelo
+**Tabla de Hechos: FactSelection**  
+Es el núcleo del modelo y contiene los eventos de cada proceso de selección. Incluye las siguientes métricas y claves foráneas:  
 
-![Star Schema](img/star_schema.png)
+- **Métricas:**  
+  - `code_challenge_score` (puntaje de prueba técnica).  
+  - `technical_interview_score` (puntaje de entrevista técnica).  
+  - `hired (0/1)` (indicador de contratación).  
+
+- **Claves foráneas:** permiten vincular el hecho con las dimensiones (candidato, fecha, país, tecnología, seniority).  
+
+Esta tabla permite calcular KPIs como:  
+- Tasa de contratación (*hire rate*).  
+- Contrataciones por tecnología, país, seniority o año.  
+- Promedio de puntajes en pruebas y entrevistas.  
+
+**Tablas de Dimensiones:**  
+- **DimCandidate:** atributos del candidato (nombre, apellido, email, años de experiencia). Permite segmentar por perfil de aspirante.  
+- **DimTechnology:** registra tecnologías evaluadas y permite medir demanda y tasa de éxito por stack.  
+- **DimCountry:** almacena países de procedencia de candidatos y soporta comparaciones internacionales.  
+- **DimSeniority:** define nivel de experiencia (Junior, Semi-Senior, Senior), útil para analizar tasas de contratación según seniority.  
+- **DimDate:** contiene la fecha de postulación con día, mes y año, fundamental para el análisis temporal de contrataciones.  
+
+**Justificación del Modelo:**  
+El diseño responde a los principios de un esquema estrella, ampliamente utilizado en Data Warehousing por su simplicidad y eficiencia:  
+
+- **Claridad Analítica:** separa métricas (hechos) de descripciones contextuales (dimensiones).  
+- **Escalabilidad:** permite agregar nuevas dimensiones (ej. fuente de reclutamiento) sin rediseñar toda la estructura.  
+- **Rendimiento:** optimiza consultas frecuentes de agregación y filtros para KPIs.  
+- **Reusabilidad:** cada dimensión puede ser compartida si en el futuro se amplían los procesos de negocio en el DW.  
 
 ---
 
@@ -47,7 +66,7 @@ El **esquema en estrella** diseñado contiene:
 ### 3. Load
 - Implementado en `src/ETL/load.py`.  
 - Carga automática en **MySQL Workbench** (`selection_dw`):  
-  - Creación de tablas si no existen.  
+  - Creación de base de datos `selection_dw` en MySQL.  
   - Inserción de registros usando `mysql-connector-python`.  
 
 ### 4. KPIs & Reporting
@@ -149,4 +168,15 @@ Los KPIs permiten analizar la efectividad del proceso de selección:
 * Promedio de puntajes de candidatos contratados por **seniority**.
 
 Esto proporciona una **visión estratégica** de cómo evoluciona el proceso de contratación en diferentes contextos.
+
+---
+
+## Visualizaciones (Power BI)
+
+Se diseñó un **dashboard en Power BI** conectado al Data Warehouse en MySQL, que permite analizar los KPIs definidos en el proyecto.
+
+<img width="1602" height="889" alt="image" src="https://github.com/user-attachments/assets/e08e7e67-0089-4a16-9ede-e82280ca88fe" />
+
+
+[Ver Dashboard en línea](https://app.powerbi.com/groups/me/reports/fdfa3a94-378a-4fd5-a866-0af8d9ddfd82/18b7e5a9665e905b2b7a?ctid=693cbea0-4ef9-4254-8977-76e05cb5f556&experience=power-bi)
 
