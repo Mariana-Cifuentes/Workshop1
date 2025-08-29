@@ -5,6 +5,8 @@
 This project corresponds to **Workshop 1** of the course **ETL (G01)** in the **Data Engineering and Artificial Intelligence** program.
 It simulates a real technical interview challenge for a **Data Engineer** role, implementing a complete end-to-end ETL process:
 
+<img width="1025" height="468" alt="image" src="https://github.com/user-attachments/assets/c93486d5-71f0-48bf-b89a-e74070c34897" />
+
 1. **Extract** → Load a dataset of candidates from a CSV file.
 2. **Transform** → Data cleaning, validation, business rules (*HIRED* rule), and the design of a **dimensional model (star schema)**.
 3. **Load** → Load the resulting tables into a **MySQL Data Warehouse**.
